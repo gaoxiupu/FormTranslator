@@ -78,6 +78,7 @@ const statusDiv = document.getElementById('status');
 const languageSearch = document.getElementById('languageSearch');
 const languageDropdown = document.getElementById('languageDropdown');
 const targetLanguageInput = document.getElementById('targetLanguage');
+const clearLanguageSearchButton = document.getElementById('clearLanguageSearch');
 const googleApiSection = document.getElementById('googleApiSection');
 const deeplApiSection = document.getElementById('deeplApiSection');
 const toggleGoogleKeyButton = document.getElementById('toggleGoogleKey');
@@ -181,6 +182,7 @@ function selectLanguage(code, name) {
   selectedTargetLanguage = code;
   targetLanguageInput.value = code;
   languageSearch.value = name;
+  clearLanguageSearchButton.style.display = 'none';
   hideDropdown();
   updateLanguageSelection();
 }
@@ -190,6 +192,18 @@ function updateLanguageDisplay() {
   const languageName = supportedLanguages[selectedTargetLanguage] || '中文 (简体)';
   languageSearch.value = languageName;
   targetLanguageInput.value = selectedTargetLanguage;
+  // 隐藏清空按钮，因为显示的是选中的语言名称
+  clearLanguageSearchButton.style.display = 'none';
+}
+
+// 清空语言搜索
+function clearLanguageSearch() {
+  languageSearch.value = '';
+  clearLanguageSearchButton.style.display = 'none';
+  currentHighlightIndex = -1;
+  renderLanguageOptions(Object.entries(supportedLanguages));
+  showDropdown();
+  languageSearch.focus();
 }
 
 // 更新语言选择状态
@@ -292,16 +306,28 @@ function bindEvents() {
     const query = this.value.trim();
     currentHighlightIndex = -1;
     
+    // 显示或隐藏清空按钮
     if (query === '') {
+      clearLanguageSearchButton.style.display = 'none';
       renderLanguageOptions(Object.entries(supportedLanguages));
       showDropdown();
     } else {
+      clearLanguageSearchButton.style.display = 'flex';
       searchLanguages(query);
     }
   });
   
+  // 清空搜索按钮事件
+  clearLanguageSearchButton.addEventListener('click', function() {
+    clearLanguageSearch();
+  });
+  
   languageSearch.addEventListener('focus', function() {
     currentHighlightIndex = -1;
+    // 如果搜索框有内容，显示清空按钮
+    if (this.value.trim() !== '' && this.value !== supportedLanguages[selectedTargetLanguage]) {
+      clearLanguageSearchButton.style.display = 'flex';
+    }
     renderLanguageOptions(Object.entries(supportedLanguages));
     showDropdown();
   });

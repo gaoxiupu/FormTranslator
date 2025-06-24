@@ -153,6 +153,12 @@
       position: relative;
     }
     
+    .search-input-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    
     #languageSearch {
       width: 100%;
       padding: 10px;
@@ -160,9 +166,34 @@
       border-radius: 4px;
       font-size: 14px;
       box-sizing: border-box;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="%23666" d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>') no-repeat right 10px center;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="%23666" d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>') no-repeat right 35px center;
       background-size: 16px;
-      padding-right: 35px;
+      padding-right: 65px;
+    }
+    
+    .clear-search-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: #666;
+      cursor: pointer;
+      padding: 0;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+    
+    .clear-search-btn:hover {
+      background-color: #f0f0f0;
+      color: #333;
     }
     
     #languageSearch:focus {
@@ -282,7 +313,10 @@
       <div class="form-group">
         <label for="targetLanguage" data-i18n="selectTargetLanguage">选择翻译的目标语言</label>
         <div class="language-selector">
-          <input type="text" id="languageSearch" data-i18n-placeholder="searchLanguage" placeholder="搜索语言..." autocomplete="off">
+          <div class="search-input-container">
+            <input type="text" id="languageSearch" data-i18n-placeholder="searchLanguage" placeholder="搜索语言..." autocomplete="off">
+            <button type="button" id="clearLanguageSearch" class="clear-search-btn" title="清空搜索" style="display: none;">×</button>
+          </div>
           <div class="language-dropdown" id="languageDropdown">
             <!-- 语言选项将通过JavaScript动态生成 -->
           </div>
