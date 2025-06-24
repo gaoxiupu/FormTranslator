@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormTranslator 测试页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .form-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-section h2 {
+            margin-top: 0;
+            color: #666;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="email"], input[type="tel"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .instruction {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        .test-data {
+            background-color: #fff3e0;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 FormTranslator 测试页面</h1>
+        
+        <div class="instruction">
+            <strong>使用说明：</strong>
+            <ol>
+                <li>安装 FormTranslator 插件</li>
+                <li>在表单中填入一些英文内容</li>
+                <li>点击插件图标或使用快捷键 Ctrl+Shift+T (Mac: Command+Shift+T)</li>
+                <li>观察表单内容是否被翻译</li>
+            </ol>
+        </div>
+        
+        <div class="form-section">
+            <h2>📝 用户注册表单</h2>
+            <div class="test-data">测试数据：可以填入 "John Doe", "john@example.com", "Hello, I am a new user" 等英文内容</div>
+            
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" placeholder="Enter your full name">
+            
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email address">
+            
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+            
+            <label for="country">Country:</label>
+            <select id="country" name="country">
+                <option value="">Select your country</option>
+                <option value="us">United States</option>
+                <option value="uk">United Kingdom</option>
+                <option value="ca">Canada</option>
+                <option value="au">Australia</option>
+            </select>
+            
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio" placeholder="Tell us about yourself"></textarea>
+        </div>
+        
+        <div class="form-section">
+            <h2>💬 联系表单</h2>
+            <div class="test-data">测试数据：可以填入 "Technical Support", "I need help with my account" 等英文内容</div>
+            
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" placeholder="What is this about?">
+            
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" placeholder="Please describe your issue or question in detail"></textarea>
+            
+            <label for="priority">Priority:</label>
+            <select id="priority" name="priority">
+                <option value="">Select priority</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+            </select>
+        </div>
+        
+        <div class="form-section">
+            <h2>🔍 搜索表单</h2>
+            <div class="test-data">测试数据：可以填入 "search for products", "find restaurants near me" 等英文内容</div>
+            
+            <label for="searchQuery">Search Query:</label>
+            <input type="text" id="searchQuery" name="searchQuery" placeholder="What are you looking for?">
+            
+            <label for="searchCategory">Category:</label>
+            <select id="searchCategory" name="searchCategory">
+                <option value="">All categories</option>
+                <option value="products">Products</option>
+                <option value="services">Services</option>
+                <option value="articles">Articles</option>
+                <option value="people">People</option>
+            </select>
+            
+            <label for="searchLocation">Location:</label>
+            <input type="text" id="searchLocation" name="searchLocation" placeholder="Enter city or address">
+        </div>
+        
+        <div class="form-section">
+            <h2>📊 反馈表单</h2>
+            <div class="test-data">测试数据：可以填入 "Great service!", "The website is easy to use" 等英文内容</div>
+            
+            <label for="rating">Rating:</label>
+            <select id="rating" name="rating">
+                <option value="">Select rating</option>
+                <option value="1">1 - Very Poor</option>
+                <option value="2">2 - Poor</option>
+                <option value="3">3 - Average</option>
+                <option value="4">4 - Good</option>
+                <option value="5">5 - Excellent</option>
+            </select>
+            
+            <label for="feedback">Feedback:</label>
+            <textarea id="feedback" name="feedback" placeholder="Please share your thoughts and suggestions"></textarea>
+            
+            <label for="recommendation">Would you recommend us?:</label>
+            <select id="recommendation" name="recommendation">
+                <option value="">Select option</option>
+                <option value="yes">Yes, definitely</option>
+                <option value="maybe">Maybe</option>
+                <option value="no">No, probably not</option>
+            </select>
+        </div>
+    </div>
+    
+    <script>
+        // 添加一些测试数据填充功能
+        function fillTestData() {
+            document.getElementById('fullName').value = 'John Doe';
+            document.getElementById('email').value = 'john.doe@example.com';
+            document.getElementById('phone').value = '+1-555-123-4567';
+            document.getElementById('bio').value = 'Hello, I am a software developer with 5 years of experience. I love coding and learning new technologies.';
+            document.getElementById('subject').value = 'Technical Support Request';
+            document.getElementById('message').value = 'I am having trouble accessing my account. Could you please help me reset my password?';
+            document.getElementById('searchQuery').value = 'best restaurants near downtown';
+            document.getElementById('searchLocation').value = 'New York City';
+            document.getElementById('feedback').value = 'The service was excellent and the staff was very helpful. I would definitely recommend this to my friends.';
+        }
+        
+        // 双击页面标题填充测试数据
+        document.querySelector('h1').addEventListener('dblclick', fillTestData);
+        
+        console.log('FormTranslator 测试页面已加载。双击标题可以填充测试数据。');
+    </script>
+</body>
+</html>
