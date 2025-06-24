@@ -9,8 +9,10 @@ README
 readme
 Readme
 
-# Ignore other documentation files that might be generated
-*.md
+# Ignore specific documentation files
+INSTALL.md
+install.md
+Install.md
 
 # Common files to ignore
 .DS_Store
