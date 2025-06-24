@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <title data-i18n="popupTitle">FormTranslator</title>
   <style>
     body {
       width: 300px;
@@ -81,18 +82,18 @@
 </head>
 <body>
   <div class="header">
-    <h1>🌐 FormTranslator</h1>
+    <h1 data-i18n="popupTitle">🌐 FormTranslator</h1>
   </div>
   
-  <button id="translateBtn" class="translate-btn">
+  <button id="translateBtn" class="translate-btn" data-i18n="translateButton">
     🚀 翻译表单
   </button>
   
   <div id="status" class="status">准备就绪</div>
   
-  <div id="formCount" class="form-count">检测到 0 个表单元素</div>
+  <div id="formCount" class="form-count" data-i18n="detecting">检测到 0 个表单元素</div>
   
-  <a href="#" id="settingsLink" class="settings-link">
+  <a href="#" id="settingsLink" class="settings-link" data-i18n="settingsLink">
     ⚙️ 设置
   </a>
   

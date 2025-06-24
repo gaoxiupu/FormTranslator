@@ -90,10 +90,48 @@ const deeplTestResult = document.getElementById('deeplTestResult');
 // 当前选中的目标语言
 let selectedTargetLanguage = 'zh';
 
+// Initialize internationalization
+function initializeI18n() {
+  // Update all elements with data-i18n attributes
+  document.querySelectorAll('[data-i18n]').forEach(element => {
+    const messageKey = element.getAttribute('data-i18n');
+    const message = chrome.i18n.getMessage(messageKey);
+    if (message) {
+      if (element.tagName === 'OPTION') {
+        element.textContent = message;
+      } else if (element.tagName === 'INPUT' && element.type === 'button') {
+        element.value = message;
+      } else {
+        element.textContent = message;
+      }
+    }
+  });
+  
+  // Update placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+    const messageKey = element.getAttribute('data-i18n-placeholder');
+    const message = chrome.i18n.getMessage(messageKey);
+    if (message) {
+      element.placeholder = message;
+    }
+  });
+  
+  // Update document title
+  const titleElement = document.querySelector('title[data-i18n]');
+  if (titleElement) {
+    const messageKey = titleElement.getAttribute('data-i18n');
+    const message = chrome.i18n.getMessage(messageKey);
+    if (message) {
+      document.title = message;
+    }
+  }
+}
+
 
 
 // 页面加载时初始化
 document.addEventListener('DOMContentLoaded', function() {
+  initializeI18n();
   initializeLanguageSelector();
   loadSettings();
   bindEvents();
@@ -385,7 +423,7 @@ function saveSettings() {
     if (chrome.runtime.lastError || !response.success) {
       showStatus('保存设置失败: ' + (response?.error || chrome.runtime.lastError?.message), 'error');
     } else {
-      showStatus('设置已保存', 'success');
+      showStatus(chrome.i18n.getMessage('settingsSaved'), 'success');
     }
   });
 }
@@ -408,7 +446,7 @@ function resetSettings() {
       if (chrome.runtime.lastError || !response.success) {
         showStatus('重置设置失败', 'error');
       } else {
-        showStatus('设置已重置为默认值', 'success');
+        showStatus(chrome.i18n.getMessage('settingsReset'), 'success');
         // 重新加载设置
         setTimeout(() => {
           location.reload();

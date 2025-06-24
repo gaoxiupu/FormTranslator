@@ -1,0 +1,176 @@
+{
+  "extensionName": {
+    "message": "フォーム翻訳ツール",
+    "description": "拡張機能の名前"
+  },
+  "extensionDescription": {
+    "message": "ワンクリックでWebフォームの内容を翻訳するChrome拡張機能",
+    "description": "拡張機能の説明"
+  },
+  "popupTitle": {
+    "message": "フォーム翻訳ツール",
+    "description": "ポップアップに表示されるタイトル"
+  },
+  "translateButton": {
+    "message": "🌐 フォームを翻訳",
+    "description": "メイン翻訳ボタンのテキスト"
+  },
+  "settingsLink": {
+    "message": "⚙️ 設定",
+    "description": "設定リンクのテキスト"
+  },
+  "formElementsDetected": {
+    "message": "$COUNT$個のフォーム要素を検出しました",
+    "description": "検出されたフォーム要素の数を表示",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "noFormElements": {
+    "message": "⚠️ フォーム要素が検出されませんでした",
+    "description": "フォーム要素が見つからない場合のメッセージ"
+  },
+  "cannotAccessPage": {
+    "message": "このページにアクセスできません",
+    "description": "ページにアクセスできない場合のエラーメッセージ"
+  },
+  "translating": {
+    "message": "翻訳中...",
+    "description": "翻訳中のステータスメッセージ"
+  },
+  "translationComplete": {
+    "message": "$COUNT$個のフォーム要素を翻訳しました",
+    "description": "翻訳完了後の成功メッセージ",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "translationFailed": {
+    "message": "翻訳に失敗しました。もう一度お試しください",
+    "description": "翻訳失敗時のエラーメッセージ"
+  },
+  "optionsTitle": {
+    "message": "FormTranslator 設定",
+    "description": "設定ページのタイトル"
+  },
+  "translationEngine": {
+    "message": "翻訳エンジン",
+    "description": "翻訳エンジン選択のセクションタイトル"
+  },
+  "selectEngine": {
+    "message": "翻訳エンジンを選択",
+    "description": "エンジン選択のラベル"
+  },
+  "googleTranslate": {
+    "message": "Google翻訳",
+    "description": "Google翻訳オプション"
+  },
+  "deeplTranslate": {
+    "message": "DeepL翻訳",
+    "description": "DeepL翻訳オプション"
+  },
+  "targetLanguage": {
+    "message": "対象言語",
+    "description": "対象言語選択のセクションタイトル"
+  },
+  "selectTargetLanguage": {
+    "message": "翻訳先の言語を選択",
+    "description": "対象言語選択のラベル"
+  },
+  "searchLanguage": {
+    "message": "言語を検索...",
+    "description": "言語検索入力欄のプレースホルダー"
+  },
+  "apiConfiguration": {
+    "message": "API設定",
+    "description": "API設定のセクションタイトル"
+  },
+  "googleApiKey": {
+    "message": "Google翻訳APIキー",
+    "description": "Google APIキー入力欄のラベル"
+  },
+  "deeplApiKey": {
+    "message": "DeepL APIキー",
+    "description": "DeepL APIキー入力欄のラベル"
+  },
+  "enterApiKey": {
+    "message": "APIキーを入力してください",
+    "description": "APIキー入力欄のプレースホルダー"
+  },
+  "showKey": {
+    "message": "表示",
+    "description": "APIキーを表示するボタンのテキスト"
+  },
+  "hideKey": {
+    "message": "非表示",
+    "description": "APIキーを非表示にするボタンのテキスト"
+  },
+  "testApi": {
+    "message": "APIテスト",
+    "description": "APIをテストするボタンのテキスト"
+  },
+  "saveSettings": {
+    "message": "設定を保存",
+    "description": "保存ボタンのテキスト"
+  },
+  "resetSettings": {
+    "message": "デフォルトに戻す",
+    "description": "リセットボタンのテキスト"
+  },
+  "settingsSaved": {
+    "message": "設定が正常に保存されました！",
+    "description": "設定保存成功時のメッセージ"
+  },
+  "settingsReset": {
+    "message": "設定をデフォルトに戻しました！",
+    "description": "設定リセット成功時のメッセージ"
+  },
+  "apiTestSuccess": {
+    "message": "APIテストが成功しました！",
+    "description": "APIテスト成功のメッセージ"
+  },
+  "apiTestFailed": {
+    "message": "APIテストが失敗しました：$ERROR$",
+    "description": "APIテスト失敗のエラーメッセージ",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "無効なAPIキー"
+      }
+    }
+  },
+  "noElementsToTranslate": {
+    "message": "翻訳する要素がありません",
+    "description": "翻訳する要素がない場合のメッセージ"
+  },
+  "unsupportedEngine": {
+    "message": "サポートされていない翻訳エンジン",
+    "description": "サポートされていない翻訳エンジンのエラーメッセージ"
+  },
+  "googleApiError": {
+    "message": "Google翻訳APIエラー",
+    "description": "Google APIエラーメッセージ"
+  },
+  "googleTranslateError": {
+    "message": "Google翻訳エラー",
+    "description": "Google翻訳エラーメッセージ"
+  },
+  "deeplApiKeyRequired": {
+    "message": "DeepL翻訳にはAPIキーが必要です",
+    "description": "DeepL APIキーが必要な場合のエラーメッセージ"
+  },
+  "deeplApiError": {
+    "message": "DeepL APIエラー",
+    "description": "DeepL APIエラーメッセージ"
+  },
+  "settingsUpdated": {
+    "message": "設定が更新されました",
+    "description": "設定更新のログメッセージ"
+  }
+}

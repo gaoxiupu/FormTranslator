@@ -1,13 +1,44 @@
 // 插件安装时的初始化
 chrome.runtime.onInstalled.addListener(function(details) {
   if (details.reason === 'install') {
+    // 获取用户浏览器语言并设置默认目标语言
+    const browserLanguage = chrome.i18n.getUILanguage();
+    let defaultTargetLanguage = 'en'; // 默认英语
+    
+    // 根据浏览器语言设置默认目标语言
+    const languageMapping = {
+      'zh-CN': 'zh-CN',
+      'zh-TW': 'zh-TW', 
+      'zh': 'zh-CN',
+      'en': 'zh-CN', // 英语用户默认翻译为中文
+      'ja': 'en',
+      'ko': 'en',
+      'fr': 'en',
+      'de': 'en',
+      'es': 'en',
+      'it': 'en',
+      'pt': 'en',
+      'ru': 'en'
+    };
+    
+    // 首先尝试完全匹配
+    if (languageMapping[browserLanguage]) {
+      defaultTargetLanguage = languageMapping[browserLanguage];
+    } else {
+      // 如果没有完全匹配，尝试匹配语言代码的前两位
+      const primaryLanguage = browserLanguage.split('-')[0];
+      if (languageMapping[primaryLanguage]) {
+        defaultTargetLanguage = languageMapping[primaryLanguage];
+      }
+    }
+    
     // 首次安装时设置默认配置
     chrome.storage.sync.set({
       engine: 'google',
-      targetLanguage: 'zh-CN',
+      targetLanguage: defaultTargetLanguage,
       googleApiKey: '',
       deeplApiKey: '',
-
+      isFirstRun: false
     });
     
     // 打开设置页面
@@ -81,7 +112,7 @@ async function testTranslationAPI(engine, apiKey, targetLanguage) {
     } else if (engine === 'deepl') {
       translatedText = await testDeepLTranslation(testText, apiKey, targetLanguage);
     } else {
-      throw new Error('不支持的翻译引擎');
+      throw new Error(chrome.i18n.getMessage('unsupportedEngine') || 'Unsupported translation engine');
     }
     
     return {
@@ -117,7 +148,7 @@ async function testGoogleTranslation(text, apiKey, targetLanguage) {
     
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(`Google翻译API错误: ${errorData.error?.message || response.status}`);
+      throw new Error(`${chrome.i18n.getMessage('googleApiError') || 'Google API Error'}: ${errorData.error?.message || response.status}`);
     }
     
     const data = await response.json();
@@ -128,7 +159,7 @@ async function testGoogleTranslation(text, apiKey, targetLanguage) {
     
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Google翻译错误: ${response.status}`);
+      throw new Error(`${chrome.i18n.getMessage('googleTranslateError') || 'Google Translate Error'}: ${response.status}`);
     }
     
     const data = await response.json();
@@ -146,7 +177,7 @@ async function testGoogleTranslation(text, apiKey, targetLanguage) {
 // 测试DeepL翻译
 async function testDeepLTranslation(text, apiKey, targetLanguage) {
   if (!apiKey) {
-    throw new Error('DeepL翻译需要API密钥');
+    throw new Error(chrome.i18n.getMessage('deeplApiKeyRequired') || 'DeepL translation requires API key');
   }
   
   const url = 'https://api-free.deepl.com/v2/translate';
@@ -166,7 +197,7 @@ async function testDeepLTranslation(text, apiKey, targetLanguage) {
   
   if (!response.ok) {
     const errorData = await response.json();
-    throw new Error(`DeepL翻译API错误: ${errorData.message || response.status}`);
+    throw new Error(`${chrome.i18n.getMessage('deeplApiError') || 'DeepL API Error'}: ${errorData.message || response.status}`);
   }
   
   const data = await response.json();
@@ -176,6 +207,6 @@ async function testDeepLTranslation(text, apiKey, targetLanguage) {
 // 监听存储变化
 chrome.storage.onChanged.addListener(function(changes, namespace) {
   if (namespace === 'sync') {
-    console.log('设置已更新:', changes);
+    console.log(chrome.i18n.getMessage('settingsUpdated') || 'Settings updated:', changes);
   }
 });

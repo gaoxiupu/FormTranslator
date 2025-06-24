@@ -1,0 +1,176 @@
+{
+  "extensionName": {
+    "message": "FormTranslator",
+    "description": "Name of the extension"
+  },
+  "extensionDescription": {
+    "message": "One-click translation of web form content Chrome extension",
+    "description": "Description of the extension"
+  },
+  "popupTitle": {
+    "message": "FormTranslator",
+    "description": "Title shown in popup"
+  },
+  "translateButton": {
+    "message": "🌐 Translate Form",
+    "description": "Main translate button text"
+  },
+  "settingsLink": {
+    "message": "⚙️ Settings",
+    "description": "Settings link text"
+  },
+  "formElementsDetected": {
+    "message": "Detected $COUNT$ form elements",
+    "description": "Shows number of detected form elements",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "noFormElements": {
+    "message": "⚠️ No form elements detected",
+    "description": "Message when no form elements found"
+  },
+  "cannotAccessPage": {
+    "message": "Cannot access this page",
+    "description": "Error message when page cannot be accessed"
+  },
+  "translating": {
+    "message": "Translating...",
+    "description": "Status message during translation"
+  },
+  "translationComplete": {
+    "message": "Translated $COUNT$ form elements",
+    "description": "Success message after translation",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "translationFailed": {
+    "message": "Translation failed, please try again",
+    "description": "Error message when translation fails"
+  },
+  "optionsTitle": {
+    "message": "FormTranslator Settings",
+    "description": "Title of the options page"
+  },
+  "translationEngine": {
+    "message": "Translation Engine",
+    "description": "Section title for translation engine selection"
+  },
+  "selectEngine": {
+    "message": "Select Translation Engine",
+    "description": "Label for engine selection"
+  },
+  "googleTranslate": {
+    "message": "Google Translate",
+    "description": "Google Translate option"
+  },
+  "deeplTranslate": {
+    "message": "DeepL Translate",
+    "description": "DeepL Translate option"
+  },
+  "targetLanguage": {
+    "message": "Target Language",
+    "description": "Section title for target language selection"
+  },
+  "selectTargetLanguage": {
+    "message": "Select translation target language",
+    "description": "Label for target language selection"
+  },
+  "searchLanguage": {
+    "message": "Search language...",
+    "description": "Placeholder for language search input"
+  },
+  "apiConfiguration": {
+    "message": "API Configuration",
+    "description": "Section title for API configuration"
+  },
+  "googleApiKey": {
+    "message": "Google Translate API Key",
+    "description": "Label for Google API key input"
+  },
+  "deeplApiKey": {
+    "message": "DeepL API Key",
+    "description": "Label for DeepL API key input"
+  },
+  "enterApiKey": {
+    "message": "Enter your API key",
+    "description": "Placeholder for API key input"
+  },
+  "showKey": {
+    "message": "Show",
+    "description": "Button text to show API key"
+  },
+  "hideKey": {
+    "message": "Hide",
+    "description": "Button text to hide API key"
+  },
+  "testApi": {
+    "message": "Test API",
+    "description": "Button text to test API"
+  },
+  "saveSettings": {
+    "message": "Save Settings",
+    "description": "Save button text"
+  },
+  "resetSettings": {
+    "message": "Reset to Default",
+    "description": "Reset button text"
+  },
+  "settingsSaved": {
+    "message": "Settings saved successfully!",
+    "description": "Success message when settings are saved"
+  },
+  "settingsReset": {
+    "message": "Settings reset to default!",
+    "description": "Success message when settings are reset"
+  },
+  "apiTestSuccess": {
+    "message": "API test successful!",
+    "description": "Success message for API test"
+  },
+  "apiTestFailed": {
+    "message": "API test failed: $ERROR$",
+    "description": "Error message for API test failure",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "Invalid API key"
+      }
+    }
+  },
+  "noElementsToTranslate": {
+    "message": "No elements to translate",
+    "description": "Message when no elements need translation"
+  },
+  "unsupportedEngine": {
+    "message": "Unsupported translation engine",
+    "description": "Error message for unsupported translation engine"
+  },
+  "googleApiError": {
+    "message": "Google Translate API Error",
+    "description": "Google API error message"
+  },
+  "googleTranslateError": {
+    "message": "Google Translate Error",
+    "description": "Google Translate error message"
+  },
+  "deeplApiKeyRequired": {
+    "message": "DeepL translation requires API key",
+    "description": "Error message when DeepL API key is required"
+  },
+  "deeplApiError": {
+    "message": "DeepL API Error",
+    "description": "DeepL API error message"
+  },
+  "settingsUpdated": {
+    "message": "Settings updated",
+    "description": "Log message for settings update"
+  }
+}

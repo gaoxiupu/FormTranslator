@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormTranslator 国际化测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .language-info {
+            background: #f0f8ff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .form-test {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <h1>FormTranslator 国际化测试页面</h1>
+    
+    <div class="language-info">
+        <h3>当前语言环境信息</h3>
+        <p><strong>浏览器UI语言:</strong> <span id="ui-language"></span></p>
+        <p><strong>页面语言:</strong> <span id="page-language"></span></p>
+        <p><strong>检测到的首选语言:</strong> <span id="preferred-language"></span></p>
+    </div>
+
+    <div class="test-section">
+        <h3>表单翻译测试</h3>
+        <div class="form-test">
+            <form id="test-form">
+                <label for="name">姓名 (Name):</label>
+                <input type="text" id="name" name="name" placeholder="请输入您的姓名">
+                
+                <label for="email">邮箱 (Email):</label>
+                <input type="email" id="email" name="email" placeholder="example@email.com">
+                
+                <label for="country">国家 (Country):</label>
+                <select id="country" name="country">
+                    <option value="">请选择国家</option>
+                    <option value="china">中国</option>
+                    <option value="japan">日本</option>
+                    <option value="usa">美国</option>
+                    <option value="uk">英国</option>
+                </select>
+                
+                <label for="message">留言 (Message):</label>
+                <textarea id="message" name="message" rows="4" placeholder="请输入您的留言内容"></textarea>
+                
+                <button type="button" onclick="testTranslation()">测试翻译功能</button>
+                <button type="button" onclick="resetForm()">重置表单</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h3>国际化消息测试</h3>
+        <button onclick="testI18nMessages()">测试国际化消息</button>
+        <div id="i18n-test-results"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>语言切换测试</h3>
+        <p>要测试不同语言，请：</p>
+        <ol>
+            <li>在Chrome中打开 chrome://settings/languages</li>
+            <li>添加或重新排序语言</li>
+            <li>重新加载此页面</li>
+            <li>观察插件界面语言的变化</li>
+        </ol>
+    </div>
+
+    <script>
+        // 显示语言信息
+        function displayLanguageInfo() {
+            if (typeof chrome !== 'undefined' && chrome.i18n) {
+                document.getElementById('ui-language').textContent = chrome.i18n.getUILanguage();
+            } else {
+                document.getElementById('ui-language').textContent = '扩展环境外，无法获取';
+            }
+            
+            document.getElementById('page-language').textContent = navigator.language;
+            
+            // 模拟首选语言检测逻辑
+            const browserLanguage = navigator.language;
+            const languageMapping = {
+                'zh-CN': 'zh-CN',
+                'zh-TW': 'zh-TW', 
+                'zh': 'zh-CN',
+                'en': 'zh-CN',
+                'ja': 'en',
+                'ko': 'en'
+            };
+            
+            let preferredLanguage = 'en';
+            if (languageMapping[browserLanguage]) {
+                preferredLanguage = languageMapping[browserLanguage];
+            } else {
+                const primaryLanguage = browserLanguage.split('-')[0];
+                if (languageMapping[primaryLanguage]) {
+                    preferredLanguage = languageMapping[primaryLanguage];
+                }
+            }
+            
+            document.getElementById('preferred-language').textContent = preferredLanguage;
+        }
+
+        // 测试翻译功能
+        function testTranslation() {
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'status';
+            
+            if (typeof chrome !== 'undefined' && chrome.runtime) {
+                statusDiv.className += ' success';
+                statusDiv.textContent = '在扩展环境中，翻译功能将正常工作。请使用插件的翻译按钮。';
+            } else {
+                statusDiv.className += ' error';
+                statusDiv.textContent = '当前不在扩展环境中，无法测试翻译功能。请在安装插件后的网页中测试。';
+            }
+            
+            const form = document.getElementById('test-form');
+            const existingStatus = form.querySelector('.status');
+            if (existingStatus) {
+                existingStatus.remove();
+            }
+            form.appendChild(statusDiv);
+        }
+
+        // 重置表单
+        function resetForm() {
+            document.getElementById('test-form').reset();
+            const statusDiv = document.querySelector('#test-form .status');
+            if (statusDiv) {
+                statusDiv.remove();
+            }
+        }
+
+        // 测试国际化消息
+        function testI18nMessages() {
+            const resultsDiv = document.getElementById('i18n-test-results');
+            
+            if (typeof chrome !== 'undefined' && chrome.i18n) {
+                const testMessages = [
+                    'extensionName',
+                    'extensionDescription',
+                    'translateButton',
+                    'settingsLink',
+                    'translating',
+                    'apiTestSuccess',
+                    'apiTestFailed'
+                ];
+                
+                let html = '<h4>国际化消息测试结果:</h4><ul>';
+                testMessages.forEach(key => {
+                    const message = chrome.i18n.getMessage(key);
+                    html += `<li><strong>${key}:</strong> ${message || '(未找到)'}</li>`;
+                });
+                html += '</ul>';
+                
+                resultsDiv.innerHTML = html;
+                resultsDiv.className = 'status success';
+            } else {
+                resultsDiv.innerHTML = '<p>当前不在扩展环境中，无法测试国际化消息。</p>';
+                resultsDiv.className = 'status error';
+            }
+        }
+
+        // 页面加载时显示语言信息
+        document.addEventListener('DOMContentLoaded', displayLanguageInfo);
+    </script>
+</body>
+</html>

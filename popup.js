@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // Initialize i18n
+  initializeI18n();
+  
   const translateBtn = document.getElementById('translateBtn');
   const statusElement = document.getElementById('status');
   const formCountElement = document.getElementById('formCount');
@@ -14,16 +17,16 @@ document.addEventListener('DOMContentLoaded', function() {
       function: countFormElements
     }, (results) => {
       if (chrome.runtime.lastError) {
-        formCountElement.textContent = '无法访问此页面';
+        formCountElement.textContent = chrome.i18n.getMessage('cannotAccessPage');
         return;
       }
       
       const count = results[0].result;
-      formCountElement.textContent = `检测到 ${count} 个表单元素`;
+      formCountElement.textContent = chrome.i18n.getMessage('formElementsDetected', [count.toString()]);
       
       if (count === 0) {
         translateBtn.disabled = true;
-        translateBtn.textContent = '⚠️ 未检测到表单元素';
+        translateBtn.textContent = chrome.i18n.getMessage('noFormElements');
         translateBtn.style.opacity = '0.6';
       }
     });
@@ -31,19 +34,19 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 翻译按钮点击事件
   translateBtn.addEventListener('click', function() {
-    statusElement.textContent = '正在翻译...';
+    statusElement.textContent = chrome.i18n.getMessage('translating');
     
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {action: 'translateForm'}, function(response) {
         if (chrome.runtime.lastError || !response) {
-          statusElement.textContent = '翻译失败，请重试';
+          statusElement.textContent = chrome.i18n.getMessage('translationFailed');
           return;
         }
         
         if (response.success) {
-          statusElement.textContent = `已翻译 ${response.count} 个表单元素`;
+          statusElement.textContent = chrome.i18n.getMessage('translationComplete', [response.count.toString()]);
         } else {
-          statusElement.textContent = response.message || '翻译失败，请重试';
+          statusElement.textContent = response.message || chrome.i18n.getMessage('translationFailed');
         }
       });
     });
@@ -54,6 +57,22 @@ document.addEventListener('DOMContentLoaded', function() {
     chrome.runtime.openOptionsPage();
   });
 });
+
+// Initialize internationalization
+function initializeI18n() {
+  // Update all elements with data-i18n attributes
+  document.querySelectorAll('[data-i18n]').forEach(element => {
+    const messageKey = element.getAttribute('data-i18n');
+    const message = chrome.i18n.getMessage(messageKey);
+    if (message) {
+      if (element.tagName === 'INPUT' && element.type === 'button') {
+        element.value = message;
+      } else {
+        element.textContent = message;
+      }
+    }
+  });
+}
 
 // 计算页面中的表单元素数量
 function countFormElements() {

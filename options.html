@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>FormTranslator 设置</title>
+  <title data-i18n="optionsTitle">FormTranslator 设置</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -264,25 +264,25 @@
 </head>
 <body>
   <div class="container">
-    <h1>FormTranslator 设置</h1>
+    <h1 data-i18n="optionsTitle">FormTranslator 设置</h1>
     
     <div class="section">
-      <div class="section-title">翻译引擎</div>
+      <div class="section-title" data-i18n="translationEngine">翻译引擎</div>
       <div class="form-group">
-        <label for="engine">选择翻译引擎</label>
+        <label for="engine" data-i18n="selectEngine">选择翻译引擎</label>
         <select id="engine">
-          <option value="google">Google 翻译</option>
-          <option value="deepl">DeepL 翻译</option>
+          <option value="google" data-i18n="googleTranslate">Google 翻译</option>
+          <option value="deepl" data-i18n="deeplTranslate">DeepL 翻译</option>
         </select>
       </div>
     </div>
     
     <div class="section">
-      <div class="section-title">目标语言</div>
+      <div class="section-title" data-i18n="targetLanguage">目标语言</div>
       <div class="form-group">
-        <label for="targetLanguage">选择翻译的目标语言</label>
+        <label for="targetLanguage" data-i18n="selectTargetLanguage">选择翻译的目标语言</label>
         <div class="language-selector">
-          <input type="text" id="languageSearch" placeholder="搜索语言..." autocomplete="off">
+          <input type="text" id="languageSearch" data-i18n-placeholder="searchLanguage" placeholder="搜索语言..." autocomplete="off">
           <div class="language-dropdown" id="languageDropdown">
             <!-- 语言选项将通过JavaScript动态生成 -->
           </div>
@@ -292,12 +292,12 @@
     </div>
     
     <div class="section">
-      <div class="section-title">API 设置</div>
+      <div class="section-title" data-i18n="apiConfiguration">API 设置</div>
       <div id="googleApiSection">
         <div class="form-group">
-          <label for="googleApiKey">Google 翻译 API 密钥 (可选)</label>
+          <label for="googleApiKey" data-i18n="googleApiKey">Google 翻译 API 密钥 (可选)</label>
           <div class="api-key-container">
-            <input type="password" id="googleApiKey" placeholder="输入 Google Cloud Translation API 密钥">
+            <input type="password" id="googleApiKey" data-i18n-placeholder="enterApiKey" placeholder="输入 Google Cloud Translation API 密钥">
             <button class="toggle-visibility" id="toggleGoogleKey">👁️</button>
           </div>
           <div class="api-info">
@@ -305,16 +305,16 @@
           </div>
         </div>
         <div class="form-group">
-          <button id="testGoogleApi" class="test-button">测试 Google 翻译</button>
+          <button id="testGoogleApi" class="test-button" data-i18n="testApi">测试 Google 翻译</button>
           <div id="googleTestResult" class="test-result"></div>
         </div>
       </div>
       
       <div id="deeplApiSection" style="display: none;">
         <div class="form-group">
-          <label for="deeplApiKey">DeepL API 密钥 (必填)</label>
+          <label for="deeplApiKey" data-i18n="deeplApiKey">DeepL API 密钥 (必填)</label>
           <div class="api-key-container">
-            <input type="password" id="deeplApiKey" placeholder="输入 DeepL API 密钥">
+            <input type="password" id="deeplApiKey" data-i18n-placeholder="enterApiKey" placeholder="输入 DeepL API 密钥">
             <button class="toggle-visibility" id="toggleDeeplKey">👁️</button>
           </div>
           <div class="api-info">
@@ -322,7 +322,7 @@
           </div>
         </div>
         <div class="form-group">
-          <button id="testDeeplApi" class="test-button">测试 DeepL 翻译</button>
+          <button id="testDeeplApi" class="test-button" data-i18n="testApi">测试 DeepL 翻译</button>
           <div id="deeplTestResult" class="test-result"></div>
         </div>
       </div>
@@ -333,8 +333,8 @@
     <div id="status" class="status"></div>
     
     <div class="button-group">
-      <button id="resetButton" class="secondary-button">恢复默认设置</button>
-      <button id="saveButton" class="primary-button">保存设置</button>
+      <button id="resetButton" class="secondary-button" data-i18n="resetSettings">恢复默认设置</button>
+      <button id="saveButton" class="primary-button" data-i18n="saveSettings">保存设置</button>
     </div>
   </div>
   

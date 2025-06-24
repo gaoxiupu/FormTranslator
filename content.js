@@ -42,7 +42,7 @@ async function translateFormElements() {
   const formElements = document.querySelectorAll('input[type="text"], textarea, input[type="email"], input[type="password"], input[type="search"], input[type="tel"], input[type="url"], input[type="number"], select');
   
   if (formElements.length === 0) {
-    return {success: false, message: '未检测到表单元素', count: 0};
+    return {success: false, message: chrome.i18n.getMessage('noFormElements'), count: 0};
   }
   
   let translatedCount = 0;
@@ -62,7 +62,7 @@ async function translateFormElements() {
         const originalText = element.value;
         
         // 更新状态
-        updateStatusIndicator(statusIndicator, `正在翻译 (${translatedCount}/${formElements.length})...`);
+        updateStatusIndicator(statusIndicator, chrome.i18n.getMessage('translating') + ` (${translatedCount}/${formElements.length})...`);
         
         // 翻译文本
         const translatedText = await translateText(originalText);
@@ -83,9 +83,9 @@ async function translateFormElements() {
     
     // 更新最终状态
     if (translatedCount > 0) {
-      updateStatusIndicator(statusIndicator, `已翻译 ${translatedCount} 个元素`, 'success');
+      updateStatusIndicator(statusIndicator, chrome.i18n.getMessage('translationComplete', [translatedCount.toString()]), 'success');
     } else {
-      updateStatusIndicator(statusIndicator, `没有需要翻译的元素`, 'info');
+      updateStatusIndicator(statusIndicator, chrome.i18n.getMessage('noElementsToTranslate'), 'info');
     }
     
     // 3秒后移除状态指示器
@@ -166,7 +166,7 @@ async function translateText(text) {
     } else if (translationSettings.engine === 'deepl') {
       return await translateWithDeepL(text);
     } else {
-      throw new Error('不支持的翻译引擎');
+      throw new Error(chrome.i18n.getMessage('unsupportedEngine') || 'Unsupported translation engine');
     }
   } catch (error) {
     console.error('翻译失败:', error);
@@ -193,7 +193,7 @@ async function translateWithGoogle(text) {
     });
     
     if (!response.ok) {
-      throw new Error(`Google翻译API错误: ${response.status}`);
+      throw new Error(`${chrome.i18n.getMessage('googleApiError') || 'Google API Error'}: ${response.status}`);
     }
     
     const data = await response.json();
@@ -204,7 +204,7 @@ async function translateWithGoogle(text) {
     
     const response = await fetch(url);
     if (!response.ok) {
-      throw new Error(`Google翻译错误: ${response.status}`);
+      throw new Error(`${chrome.i18n.getMessage('googleTranslateError') || 'Google Translate Error'}: ${response.status}`);
     }
     
     const data = await response.json();
@@ -223,7 +223,7 @@ async function translateWithGoogle(text) {
 // 使用DeepL翻译API
 async function translateWithDeepL(text) {
   if (!translationSettings.apiKey) {
-    throw new Error('DeepL翻译需要API密钥');
+    throw new Error(chrome.i18n.getMessage('deeplApiKeyRequired') || 'DeepL translation requires API key');
   }
   
   const url = 'https://api-free.deepl.com/v2/translate';
@@ -242,7 +242,7 @@ async function translateWithDeepL(text) {
   });
   
   if (!response.ok) {
-    throw new Error(`DeepL翻译API错误: ${response.status}`);
+    throw new Error(`${chrome.i18n.getMessage('deeplApiError') || 'DeepL API Error'}: ${response.status}`);
   }
   
   const data = await response.json();

@@ -1,0 +1,176 @@
+{
+  "extensionName": {
+    "message": "表单翻译器",
+    "description": "扩展程序名称"
+  },
+  "extensionDescription": {
+    "message": "一键翻译网页表单内容的Chrome插件",
+    "description": "扩展程序描述"
+  },
+  "popupTitle": {
+    "message": "表单翻译器",
+    "description": "弹窗中显示的标题"
+  },
+  "translateButton": {
+    "message": "🌐 翻译表单",
+    "description": "主要翻译按钮文本"
+  },
+  "settingsLink": {
+    "message": "⚙️ 设置",
+    "description": "设置链接文本"
+  },
+  "formElementsDetected": {
+    "message": "检测到 $COUNT$ 个表单元素",
+    "description": "显示检测到的表单元素数量",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "noFormElements": {
+    "message": "⚠️ 未检测到表单元素",
+    "description": "未找到表单元素时的消息"
+  },
+  "cannotAccessPage": {
+    "message": "无法访问此页面",
+    "description": "无法访问页面时的错误消息"
+  },
+  "translating": {
+    "message": "正在翻译...",
+    "description": "翻译过程中的状态消息"
+  },
+  "translationComplete": {
+    "message": "已翻译 $COUNT$ 个表单元素",
+    "description": "翻译完成后的成功消息",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      }
+    }
+  },
+  "translationFailed": {
+    "message": "翻译失败，请重试",
+    "description": "翻译失败时的错误消息"
+  },
+  "optionsTitle": {
+    "message": "FormTranslator 设置",
+    "description": "设置页面标题"
+  },
+  "translationEngine": {
+    "message": "翻译引擎",
+    "description": "翻译引擎选择的章节标题"
+  },
+  "selectEngine": {
+    "message": "选择翻译引擎",
+    "description": "引擎选择的标签"
+  },
+  "googleTranslate": {
+    "message": "谷歌翻译",
+    "description": "谷歌翻译选项"
+  },
+  "deeplTranslate": {
+    "message": "DeepL翻译",
+    "description": "DeepL翻译选项"
+  },
+  "targetLanguage": {
+    "message": "目标语言",
+    "description": "目标语言选择的章节标题"
+  },
+  "selectTargetLanguage": {
+    "message": "选择翻译的目标语言",
+    "description": "目标语言选择的标签"
+  },
+  "searchLanguage": {
+    "message": "搜索语言...",
+    "description": "语言搜索输入框的占位符"
+  },
+  "apiConfiguration": {
+    "message": "API配置",
+    "description": "API配置的章节标题"
+  },
+  "googleApiKey": {
+    "message": "谷歌翻译API密钥",
+    "description": "谷歌API密钥输入框的标签"
+  },
+  "deeplApiKey": {
+    "message": "DeepL API密钥",
+    "description": "DeepL API密钥输入框的标签"
+  },
+  "enterApiKey": {
+    "message": "请输入您的API密钥",
+    "description": "API密钥输入框的占位符"
+  },
+  "showKey": {
+    "message": "显示",
+    "description": "显示API密钥的按钮文本"
+  },
+  "hideKey": {
+    "message": "隐藏",
+    "description": "隐藏API密钥的按钮文本"
+  },
+  "testApi": {
+    "message": "测试API",
+    "description": "测试API的按钮文本"
+  },
+  "saveSettings": {
+    "message": "保存设置",
+    "description": "保存按钮文本"
+  },
+  "resetSettings": {
+    "message": "恢复默认",
+    "description": "重置按钮文本"
+  },
+  "settingsSaved": {
+    "message": "设置保存成功！",
+    "description": "设置保存成功时的消息"
+  },
+  "settingsReset": {
+    "message": "设置已恢复默认！",
+    "description": "设置重置成功时的消息"
+  },
+  "apiTestSuccess": {
+    "message": "API测试成功！",
+    "description": "API测试成功的消息"
+  },
+  "apiTestFailed": {
+    "message": "API测试失败：$ERROR$",
+    "description": "API测试失败的错误消息",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "无效的API密钥"
+      }
+    }
+  },
+  "noElementsToTranslate": {
+    "message": "没有需要翻译的元素",
+    "description": "当没有元素需要翻译时显示的消息"
+  },
+  "unsupportedEngine": {
+    "message": "不支持的翻译引擎",
+    "description": "不支持的翻译引擎错误消息"
+  },
+  "googleApiError": {
+    "message": "Google翻译API错误",
+    "description": "Google API错误消息"
+  },
+  "googleTranslateError": {
+    "message": "Google翻译错误",
+    "description": "Google翻译错误消息"
+  },
+  "deeplApiKeyRequired": {
+    "message": "DeepL翻译需要API密钥",
+    "description": "DeepL需要API密钥的错误消息"
+  },
+  "deeplApiError": {
+    "message": "DeepL翻译API错误",
+    "description": "DeepL API错误消息"
+  },
+  "settingsUpdated": {
+    "message": "设置已更新",
+    "description": "设置更新的日志消息"
+  }
+}
