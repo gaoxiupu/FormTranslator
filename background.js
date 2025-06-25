@@ -130,78 +130,84 @@ async function testTranslationAPI(engine, apiKey, targetLanguage) {
 
 // 测试Google翻译
 async function testGoogleTranslation(text, apiKey, targetLanguage) {
-  if (apiKey) {
+  if (apiKey && apiKey.trim()) {
     // 使用官方API
     const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
     
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        q: text,
-        target: targetLanguage,
-        format: 'text'
-      })
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(`${chrome.i18n.getMessage('googleApiError') || 'Google API Error'}: ${errorData.error?.message || response.status}`);
-    }
-    
-    const data = await response.json();
-    return data.data.translations[0].translatedText;
-  } else {
-    // 使用免费版本
-    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURIComponent(text)}`;
-    
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`${chrome.i18n.getMessage('googleTranslateError') || 'Google Translate Error'}: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    let translatedText = '';
-    for (const sentence of data[0]) {
-      if (sentence[0]) {
-        translatedText += sentence[0];
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          q: text,
+          target: targetLanguage,
+          format: 'text'
+        })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.error?.message || `HTTP ${response.status}`;
+        throw new Error(`Google API错误: ${errorMessage}`);
       }
+      
+      const data = await response.json();
+      if (!data.data || !data.data.translations || !data.data.translations[0]) {
+        throw new Error('Google API返回数据格式错误');
+      }
+      return data.data.translations[0].translatedText;
+    } catch (error) {
+      if (error.message.includes('Google API错误')) {
+        throw error;
+      }
+      throw new Error(`Google翻译请求失败: ${error.message}`);
     }
-    
-    return translatedText;
+  } else {
+    throw new Error('请提供有效的Google翻译API密钥');
   }
 }
 
 // 测试DeepL翻译
 async function testDeepLTranslation(text, apiKey, targetLanguage) {
-  if (!apiKey) {
-    throw new Error(chrome.i18n.getMessage('deeplApiKeyRequired') || 'DeepL translation requires API key');
+  if (!apiKey || !apiKey.trim()) {
+    throw new Error('请提供有效的DeepL API密钥');
   }
   
   const url = 'https://api-free.deepl.com/v2/translate';
   
-  const formData = new URLSearchParams();
-  formData.append('auth_key', apiKey);
-  formData.append('text', text);
-  formData.append('target_lang', targetLanguage);
-  
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: formData
-  });
-  
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(`${chrome.i18n.getMessage('deeplApiError') || 'DeepL API Error'}: ${errorData.message || response.status}`);
+  try {
+    const formData = new URLSearchParams();
+    formData.append('auth_key', apiKey);
+    formData.append('text', text);
+    formData.append('target_lang', targetLanguage.toUpperCase());
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formData
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData.message || `HTTP ${response.status}`;
+      throw new Error(`DeepL API错误: ${errorMessage}`);
+    }
+    
+    const data = await response.json();
+    if (!data.translations || !data.translations[0]) {
+      throw new Error('DeepL API返回数据格式错误');
+    }
+    return data.translations[0].text;
+  } catch (error) {
+    if (error.message.includes('DeepL API错误')) {
+      throw error;
+    }
+    throw new Error(`DeepL翻译请求失败: ${error.message}`);
   }
-  
-  const data = await response.json();
-  return data.translations[0].text;
 }
 
 // 监听存储变化

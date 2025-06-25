@@ -166,10 +166,20 @@ async function translateText(text) {
     } else if (translationSettings.engine === 'deepl') {
       return await translateWithDeepL(text);
     } else {
-      throw new Error(chrome.i18n.getMessage('unsupportedEngine') || 'Unsupported translation engine');
+      throw new Error(chrome.i18n.getMessage('unsupportedEngine') || '不支持的翻译引擎');
     }
   } catch (error) {
     console.error('翻译失败:', error);
+    // 提供更详细的错误信息
+    if (error.message.includes('Failed to fetch')) {
+      throw new Error('网络连接失败，请检查网络连接');
+    } else if (error.message.includes('403')) {
+      throw new Error('API密钥无效或已过期');
+    } else if (error.message.includes('429')) {
+      throw new Error('API调用频率过高，请稍后重试');
+    } else if (error.message.includes('400')) {
+      throw new Error('请求参数错误，请检查目标语言设置');
+    }
     throw error;
   }
 }
@@ -177,74 +187,82 @@ async function translateText(text) {
 // 使用Google翻译API
 async function translateWithGoogle(text) {
   // 如果有API密钥，使用官方API
-  if (translationSettings.apiKey) {
+  if (translationSettings.apiKey && translationSettings.apiKey.trim()) {
     const url = `https://translation.googleapis.com/language/translate/v2?key=${translationSettings.apiKey}`;
     
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        q: text,
-        target: translationSettings.targetLanguage,
-        format: 'text'
-      })
-    });
-    
-    if (!response.ok) {
-      throw new Error(`${chrome.i18n.getMessage('googleApiError') || 'Google API Error'}: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    return data.data.translations[0].translatedText;
-  } else {
-    // 使用免费的替代方案（不推荐用于生产环境）
-    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${translationSettings.targetLanguage}&dt=t&q=${encodeURIComponent(text)}`;
-    
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`${chrome.i18n.getMessage('googleTranslateError') || 'Google Translate Error'}: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    // 提取翻译结果
-    let translatedText = '';
-    for (const sentence of data[0]) {
-      if (sentence[0]) {
-        translatedText += sentence[0];
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          q: text,
+          target: translationSettings.targetLanguage,
+          format: 'text'
+        })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData.error?.message || `HTTP ${response.status}`;
+        throw new Error(`Google API错误: ${errorMessage}`);
       }
+      
+      const data = await response.json();
+      if (!data.data || !data.data.translations || !data.data.translations[0]) {
+        throw new Error('Google API返回数据格式错误');
+      }
+      return data.data.translations[0].translatedText;
+    } catch (error) {
+      if (error.message.includes('Google API错误')) {
+        throw error;
+      }
+      throw new Error(`Google翻译请求失败: ${error.message}`);
     }
-    
-    return translatedText;
+  } else {
+    // 没有API密钥时的提示
+    throw new Error('请在设置中配置Google翻译API密钥，或选择其他翻译引擎');
   }
 }
 
 // 使用DeepL翻译API
 async function translateWithDeepL(text) {
-  if (!translationSettings.apiKey) {
-    throw new Error(chrome.i18n.getMessage('deeplApiKeyRequired') || 'DeepL translation requires API key');
+  if (!translationSettings.apiKey || !translationSettings.apiKey.trim()) {
+    throw new Error('请在设置中配置DeepL API密钥');
   }
   
   const url = 'https://api-free.deepl.com/v2/translate';
   
-  const formData = new URLSearchParams();
-  formData.append('auth_key', translationSettings.apiKey);
-  formData.append('text', text);
-  formData.append('target_lang', translationSettings.targetLanguage);
-  
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: formData
-  });
-  
-  if (!response.ok) {
-    throw new Error(`${chrome.i18n.getMessage('deeplApiError') || 'DeepL API Error'}: ${response.status}`);
+  try {
+    const formData = new URLSearchParams();
+    formData.append('auth_key', translationSettings.apiKey);
+    formData.append('text', text);
+    formData.append('target_lang', translationSettings.targetLanguage.toUpperCase());
+    
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: formData
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      const errorMessage = errorData.message || `HTTP ${response.status}`;
+      throw new Error(`DeepL API错误: ${errorMessage}`);
+    }
+    
+    const data = await response.json();
+    if (!data.translations || !data.translations[0]) {
+      throw new Error('DeepL API返回数据格式错误');
+    }
+    return data.translations[0].text;
+  } catch (error) {
+    if (error.message.includes('DeepL API错误')) {
+      throw error;
+    }
+    throw new Error(`DeepL翻译请求失败: ${error.message}`);
   }
-  
-  const data = await response.json();
-  return data.translations[0].text;
 }

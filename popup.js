@@ -34,19 +34,44 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // 翻译按钮点击事件
   translateBtn.addEventListener('click', function() {
+    // 禁用按钮防止重复点击
+    translateBtn.disabled = true;
+    translateBtn.textContent = chrome.i18n.getMessage('translating');
     statusElement.textContent = chrome.i18n.getMessage('translating');
+    statusElement.style.color = '#007bff';
     
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, {action: 'translateForm'}, function(response) {
+        // 重新启用按钮
+        translateBtn.disabled = false;
+        translateBtn.textContent = chrome.i18n.getMessage('translateButton');
+        
         if (chrome.runtime.lastError || !response) {
-          statusElement.textContent = chrome.i18n.getMessage('translationFailed');
+          statusElement.textContent = '无法连接到页面，请刷新页面后重试';
+          statusElement.style.color = '#dc3545';
           return;
         }
         
         if (response.success) {
           statusElement.textContent = chrome.i18n.getMessage('translationComplete', [response.count.toString()]);
+          statusElement.style.color = '#28a745';
+          if (response.failed && response.failed > 0) {
+            statusElement.textContent += ` (${response.failed}个失败)`;
+            statusElement.style.color = '#ffc107';
+          }
         } else {
           statusElement.textContent = response.message || chrome.i18n.getMessage('translationFailed');
+          statusElement.style.color = '#dc3545';
+          
+          // 如果是API密钥相关错误，提供设置链接提示
+          if (response.message && (response.message.includes('API密钥') || response.message.includes('配置'))) {
+            const settingsHint = document.createElement('div');
+            settingsHint.style.fontSize = '12px';
+            settingsHint.style.marginTop = '5px';
+            settingsHint.style.color = '#6c757d';
+            settingsHint.textContent = '点击下方"设置"按钮配置API密钥';
+            statusElement.appendChild(settingsHint);
+          }
         }
       });
     });
