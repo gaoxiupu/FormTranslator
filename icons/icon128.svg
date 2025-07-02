@@ -16,6 +16,7 @@
   <rect x="44" y="72" width="30" height="6" rx="3" fill="white" opacity="0.3"/>
   
   <!-- Translation Symbol -->
-  <path d="M34,34v40h40v-40z M54,34h-20v40h20z" fill="url(#grad1)"/>
+  <circle cx="84" cy="44" r="8" fill="white" opacity="0.8"/>
+  <text x="84" y="48" text-anchor="middle" fill="#667eea" font-family="Arial, sans-serif" font-size="10" font-weight="bold">A</text>
   
 </svg>
